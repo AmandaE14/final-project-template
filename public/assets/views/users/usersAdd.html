@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link rel="stylesheet" href="/final-project-template/public/assets/styles/main.css">
+</head>
+<body>
+    <header>
+        <h1>Add a New User</h1>
+    </header>
+    <main>
+        <form method="POST" action="/final-project-template/public/api/users/register">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </main>
+</body>
+</html>

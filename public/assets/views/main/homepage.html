@@ -1,12 +1,40 @@
-<html>
-    <head>
-        <!-- remember to route relative to index.php  -->
-        <script type="text/javascript" src="./assets/js/homepage.js"></script>
-        <link rel="stylesheet" href="./assets/styles/homepage.css">
-    </head>
-
-    <body>
-        <p>homepage!</p>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to My Cute Budget Tracker</title>
+    <script type="text/javascript" src="./assets/js/homepage.js"></script>
+    <link rel="stylesheet" href="./assets/styles/homepage.css">
+</head>
+<body>
+    <header>
+        <h1>💖 My Budget Tracker 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="/final-project-template/public/">Home</a></li>
+                <li><a href="/final-project-template/public/features">Features</a></li>
+            </ul>
+        </nav>        
+    </header>
+    <main>
+        <section id="hero">
+            <h1>Welcome to My Simple Budget Tracker!</h1>
+            <p>Track expenses effortlessly.</p>
+        </section>
+        <section id="register">
+            <h2>Register</h2>
+            <form id="register-form" method="POST" action="/api/users/register">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>💖 Designed by Amanda Estevez 💖</p>
+    </footer>
+</body>
 </html>
-

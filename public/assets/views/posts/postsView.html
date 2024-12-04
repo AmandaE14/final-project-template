@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link rel="stylesheet" href="/final-project-template/public/assets/styles/homepage.css">
+</head>
+<body>
+    <header>
+        <h1>💖 Posts 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="/final-project-template/public/">Home</a></li>
+                <li><a href="/final-project-template/public/features">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="posts-table-body">
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>💖 Designed by Amanda Estevez 💖</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tableBody = document.getElementById('posts-table-body');
+
+            function createAddPostRow() {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="3"></td>
+                    <td class="actions">
+                        <a href="/final-project-template/public/posts-add">
+                            <img src="/final-project-template/public/assets/images/plus.png" alt="Add Post" title="Add Post" />
+                        </a>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            }
+
+            async function fetchPosts() {
+                const response = await fetch('/final-project-template/public/api/posts');
+                const posts = await response.json();
+                tableBody.innerHTML = ''; 
+                posts.forEach((post, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${post.title}</td>
+                        <td>${post.content}</td>
+                        <td class="actions">
+                            <button onclick="updatePost(${post.id})">
+                                <img src="/final-project-template/public/assets/images/update.png" alt="Edit" title="Edit" />
+                            </button>
+                            <button onclick="confirmDelete(${post.id})">
+                                <img src="/final-project-template/public/assets/images/delete.png" alt="Delete" title="Delete" />
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                createAddPostRow(); 
+            }
+
+            window.updatePost = function (id) {
+                window.location.href = '/final-project-template/public/posts-update?id=' + id;
+            };
+
+            window.confirmDelete = function (id) {
+                if (confirm('Are you sure you want to delete this post?')) {
+                    deletePost(id);
+                }
+            };
+
+            async function deletePost(id) {
+                const response = await fetch('/final-project-template/public/api/postsDelete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Post deleted successfully!');
+                    fetchPosts(); 
+                } else {
+                    alert('Failed to delete post: ' + result.error);
+                }
+            }
+
+            fetchPosts();
+        });
+    </script>
+</body>
+</html>

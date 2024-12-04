@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Post</title>
+    <link rel="stylesheet" href="/final-project-template/public/assets/styles/homepage.css">
+</head>
+<body>
+    <header>
+        <h1>💖 Update Post 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="/final-project-template/public/">Home</a></li>
+                <li><a href="/final-project-template/public/features">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form id="updateForm" action="/final-project-template/public/api/postsUpdate" method="POST">
+            <input type="hidden" id="postId" name="post_id" value="<?php echo $_GET['id']; ?>">
+            <label for="title">New Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="content">New Content:</label>
+            <textarea id="content" name="content" required></textarea>
+            <button type="submit">Update Post</button>
+        </form>
+    </main>
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = new FormData(this);
+
+            fetch(`/final-project-template/public/api/postsUpdate`, {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    window.location.href = '/final-project-template/public/posts-view';
+                }
+            })
+            .catch(error => {
+                console.error('Error updating post:', error);
+                alert('Failed to update post');
+            });
+        });
+    </script>
+</body>
+</html>

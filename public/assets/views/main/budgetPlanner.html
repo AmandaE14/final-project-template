@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="/final-project-template/public/assets/styles/homepage.css">
+</head>
+<body>
+    <header>
+        <h1>💖 Monthly Budget Planner 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="/final-project-template/public/">Home</a></li>
+                <li><a href="/final-project-template/public/features">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form id="budget-form">
+            <div>
+                <label for="month">Month:</label>
+                <input type="text" id="month" name="month" required>
+            </div>
+            <div>
+                <label for="initial-balance">Initial Balance:</label>
+                <input type="number" id="initial-balance" name="initial_balance" required>
+            </div>
+            <h2 class="left-align">Income</h2>
+            <div>
+                <label for="income">Amount:</label>
+                <input type="number" id="income" name="income" required>
+                <label for="income-date">Date:</label>
+                <input type="date" id="income-date" name="income_date">
+            </div>
+            <h2 class="left-align">Expenses</h2>
+            <div>
+                <label for="expense">Amount:</label>
+                <input type="number" id="expense" name="expense" required>
+                <label for="expense-date">Date:</label>
+                <input type="date" id="expense-date" name="expense_date">
+            </div>
+            <button type="submit">Save Budget</button>
+        </form>
+    </main>
+    <footer>
+        <p>💖 Designed by Amanda Estevez 💖</p>
+    </footer>
+    <script>
+        document.getElementById('budget-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch('/final-project-template/public/api/budget', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message || 'Budget saved successfully!');
+                    event.target.reset();
+                } else {
+                    alert(result.error || 'An error occurred.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An unexpected error occurred.');
+            }
+        });
+    </script>
+</body>
+</html>

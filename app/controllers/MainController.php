@@ -5,12 +5,31 @@ namespace app\controllers;
 class MainController extends Controller {
 
     public function homepage() {
-        //remember to route relative to index.php
-        //require page and exit to return an HTML page
-        $this->returnView('./assets/views/main/homepage.html');
+        $this->returnView(BASE_PATH . "/public/assets/views/main/homepage.html");
+    }
+
+    public function features() {
+        $viewPath = BASE_PATH . "/public/assets/views/main/features.html";
+        if (!file_exists($viewPath)) {
+            error_log("Features file not found at path: " . $viewPath);
+            $this->notFound();
+            return;
+        }
+
+        $this->returnView($viewPath);
     }
 
     public function notFound() {
+        $this->returnView(BASE_PATH . "/public/assets/views/main/404.html");
     }
 
+    public function returnView($viewPath) {
+        if (file_exists($viewPath)) {
+            include $viewPath;
+        } else {
+            http_response_code(404);
+            error_log("View not found: $viewPath");
+            echo "View not found: $viewPath";
+        }
+    }
 }

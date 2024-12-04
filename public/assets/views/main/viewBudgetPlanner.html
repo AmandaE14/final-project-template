@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Budgets</title>
+    <link rel="stylesheet" href="/final-project-template/public/assets/styles/homepage.css">
+</head>
+<body>
+    <header>
+        <h1>💖 View Saved Budgets 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="/final-project-template/public/">Home</a></li>
+                <li><a href="/final-project-template/public/features">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Initial Balance</th>
+                    <th>Income</th>
+                    <th>Income Date</th>
+                    <th>Expense</th>
+                    <th>Expense Date</th>
+                </tr>
+            </thead>
+            <tbody id="budget-table-body">
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>💖 Designed by Amanda Estevez 💖</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/final-project-template/public/api/budgets')
+            .then(response => response.json())  
+            .then(budgets => {
+                const tableBody = document.querySelector('#budget-table-body');
+                tableBody.innerHTML = ''; 
+                budgets.forEach(budget => {
+                    const row = `<tr>
+                        <td>${budget.month}</td>
+                        <td>${budget.initial_balance}</td>
+                        <td>${budget.income}</td>
+                        <td>${budget.income_date}</td>
+                        <td>${budget.expense}</td>
+                        <td>${budget.expense_date}</td>
+                    </tr>`;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching budgets:', error);
+                alert('Failed to load budgets. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
